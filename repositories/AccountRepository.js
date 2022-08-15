@@ -1,5 +1,4 @@
 const Account = require('../database/models/AccountModel');
-const { MISSING_PARAMS, EXISTED_USER } = require('../Constants/message');
 //Retrieve all accounts in the system
 const getAccounts = async () => {
   try {
