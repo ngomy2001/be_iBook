@@ -52,9 +52,23 @@ const updateAuthor = async (id, data) => {
     );
   }
 };
+
+//Delete an author
+const deleteAuthor = async (id) => {
+  try {
+    const deletedAuthor = await Author.findByIdAndRemove(id);
+    return deletedAuthor;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: AuthorRepository.js ~ line 62 ~ deleteAuthor ~ error',
+      JSON.stringify(error)
+    );
+  }
+};
 module.exports = {
   getAuthors,
   findAuthor,
   addAuthor,
   updateAuthor,
+  deleteAuthor,
 };
