@@ -13,7 +13,20 @@ const getAuthors = async () => {
   }
 };
 
-//Find author by Id
+//Find author by condition
+const findAuthor = async (condition) => {
+  try {
+    const author = await Author.findOne({ condition });
+    return author;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: AuthorRepository.js ~ line 22 ~ findAuthor ~ error',
+      JSON.stringify(error)
+    );
+  }
+};
+
 module.exports = {
   getAuthors,
+  findAuthor,
 };
