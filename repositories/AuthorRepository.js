@@ -26,7 +26,35 @@ const findAuthor = async (condition) => {
   }
 };
 
+//Add a new author
+
+const addAuthor = async (data) => {
+  try {
+    const newAuthor = await Author.create(data);
+    return newAuthor;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: AuthorRepository.js ~ line 36 ~ addAuthor ~ error',
+      JSON.stringify(error)
+    );
+  }
+};
+
+//Update an author information
+const updateAuthor = async (id, data) => {
+  try {
+    const updatedAuthor = await Author.findOneAndUpdate(id, data);
+    return updatedAuthor;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: AuthorRepository.js ~ line 49 ~ updateAuthor ~ error',
+      JSON.stringify(error)
+    );
+  }
+};
 module.exports = {
   getAuthors,
   findAuthor,
+  addAuthor,
+  updateAuthor,
 };
