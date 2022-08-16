@@ -3,10 +3,6 @@ const Account = require('../database/models/AccountModel');
 const getAccounts = async () => {
   try {
     const accounts = await Account.find({});
-    console.log(
-      '🚀 ~ file: AccountRepository.js ~ line 5 ~ getAccounts ~ accounts',
-      JSON.stringify(accounts)
-    );
     return accounts;
   } catch (error) {
     console.log(
