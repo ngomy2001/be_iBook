@@ -19,7 +19,7 @@ const getAccounts = async () => {
 //Find an account by Id
 const getAccountById = async (id) => {
   try {
-    const account = await Account.findById({ id });
+    const account = await Account.findOne({ id });
     return account;
   } catch (error) {
     console.log(

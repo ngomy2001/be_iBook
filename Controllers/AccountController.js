@@ -3,6 +3,8 @@ const {
   EXISTED_USER,
   CREATE_SUCCESS,
   MISSING_PARAMS,
+  USER_NOT_FOUND,
+  UPDATE_SUCCESS,
 } = require('../Constants/message');
 
 //Show a list of already account in system
@@ -14,12 +16,12 @@ const getAllAccounts = async (req, res, next) => {
 //Create a new account
 const createAccount = async (req, res, next) => {
   const { firstName, lastName, role, email, password } = req.body;
-
   if (!firstName || !lastName || !role || !email || !password)
     return res.status(400).send(MISSING_PARAMS);
 
   const user = await AccountRepository.getAccountByEmail(email);
-  if (user.length > 0) return res.status(400).send(EXISTED_USER);
+
+  if (user) return res.status(400).send(EXISTED_USER);
 
   const data = {
     firstName,
@@ -34,8 +36,28 @@ const createAccount = async (req, res, next) => {
 };
 
 //Update an already account
+const updateAccountInfo = async (req, res, next) => {
+  const { id } = req.params;
 
-const updateAccountInfo = async (req, res, next) => {};
+  const user = await AccountRepository.getAccountById({ _id: id });
+  console.log(
+    '🚀 ~ file: AccountController.js ~ line 43 ~ updateAccountInfo ~ user',
+    JSON.stringify(user)
+  );
+
+  if (!user) return res.status(404).send(USER_NOT_FOUND);
+  const { firstName, lastName, role, email, password } = req.body;
+  const data = {
+    firstName,
+    lastName,
+    role,
+    email,
+    password,
+  };
+
+  const updatedUser = await AccountRepository.updateAccount(id, data);
+  return res.status(200).send(UPDATE_SUCCESS);
+};
 module.exports = {
   getAllAccounts,
   createAccount,

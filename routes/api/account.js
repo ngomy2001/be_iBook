@@ -2,12 +2,12 @@ var express = require('express');
 var router = express.Router();
 
 const {
-  createAccount,
-  getAccountById,
   getAllAccounts,
+  createAccount,
+  updateAccountInfo,
 } = require('../../Controllers/AccountController');
 
 router.get('/', getAllAccounts);
-router.get('/:id', getAccountById);
 router.post('/createAccount', createAccount);
+router.put('/:id', updateAccountInfo);
 module.exports = router;
