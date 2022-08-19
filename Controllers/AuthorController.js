@@ -36,7 +36,7 @@ const createAuthor = async (req, res, next) => {
 const updateAuthorInfo = async (req, res, next) => {
   const { id } = req.params;
 
-  const author = await AuthorRepository.findAuthor({ _id: id });
+  const author = await AuthorRepository.getAuthorById(id);
 
   if (!author) return res.status(404).send(AUTHOR_NOT_FOUND);
   const { firstName, lastName, description } = req.body;
