@@ -42,7 +42,7 @@ const findPublisher = async (option) => {
 //Add a new publisher
 const addPublisher = async (data) => {
   try {
-    const newPublisher = await Publisher.addPublisher(data);
+    const newPublisher = await Publisher.create(data);
     return newPublisher;
   } catch (error) {
     console.log(
@@ -55,7 +55,7 @@ const addPublisher = async (data) => {
 //Update a publisher
 const updatePublisher = async (id, data) => {
   try {
-    const updatedUser = await Account.findByIdAndUpdate(id, data);
+    const updatedUser = await Publisher.findByIdAndUpdate(id, data);
     return updatedUser;
   } catch (error) {
     console.log(
