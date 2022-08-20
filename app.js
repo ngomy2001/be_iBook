@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 const accountRouter = require('./routes/api/account');
 const authorRouter = require('./routes/api/author');
 const publisherRouter = require('./routes/api/publisher');
+const categoryRouter = require('./routes/api/category');
 
 const database = require('./database/connect');
 
@@ -29,6 +30,7 @@ app.use('/users', usersRouter);
 app.use('/api/accounts', accountRouter);
 app.use('/api/author', authorRouter);
 app.use('/api/publisher', publisherRouter);
+app.use('/api/category', categoryRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
