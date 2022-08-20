@@ -22,7 +22,7 @@ const createPublisher = async (req, res, next) => {
   };
 
   const newPublisher = await PublisherRepository.addPublisher(data);
-  return res.status(200).send(CREATE_SUCCESS);
+  if (newPublisher) return res.status(200).send(CREATE_SUCCESS);
 };
 
 //Update publisher information
