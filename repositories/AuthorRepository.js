@@ -13,10 +13,23 @@ const getAuthors = async () => {
   }
 };
 
-//Find author by condition
-const findAuthor = async (condition) => {
+//Find an author by Id
+const getAuthorById = async (id) => {
   try {
-    const author = await Author.findOne({ condition });
+    const author = await Author.findById(id);
+    return author;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: AuthorRepository.js ~ line 22 ~ getAuthorById ~ error',
+      JSON.stringify(error)
+    );
+  }
+};
+
+//Find author by option
+const findAuthor = async (option) => {
+  try {
+    const author = await Author.findOne({ option });
     return author;
   } catch (error) {
     console.log(
@@ -43,7 +56,7 @@ const addAuthor = async (data) => {
 //Update an author information
 const updateAuthor = async (id, data) => {
   try {
-    const updatedAuthor = await Author.findOneAndUpdate(id, data);
+    const updatedAuthor = await Author.findByIdAndUpdate(id, data);
     return updatedAuthor;
   } catch (error) {
     console.log(
@@ -67,6 +80,7 @@ const deleteAuthor = async (id) => {
 };
 module.exports = {
   getAuthors,
+  getAuthorById,
   findAuthor,
   addAuthor,
   updateAuthor,

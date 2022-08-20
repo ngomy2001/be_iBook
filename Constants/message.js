@@ -5,7 +5,7 @@ const UPDATE_SUCCESS = 'You has updated successfully';
 const USER_NOT_FOUND = 'User is not found';
 const AUTHOR_NOT_FOUND = 'Author is not found';
 const DELETE_SUCCESS = 'You has deleted successfully';
-
+const NOT_FOUND = 'Not found';
 module.exports = {
   MISSING_PARAMS,
   EXISTED_USER,
@@ -14,4 +14,5 @@ module.exports = {
   UPDATE_SUCCESS,
   AUTHOR_NOT_FOUND,
   DELETE_SUCCESS,
+  NOT_FOUND,
 };

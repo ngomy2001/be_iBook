@@ -15,7 +15,7 @@ const getAccounts = async () => {
 //Find an account by Id
 const getAccountById = async (id) => {
   try {
-    const account = await Account.findOne({ id });
+    const account = await Account.findById(id);
     return account;
   } catch (error) {
     console.log(
@@ -52,10 +52,9 @@ const register = async (data) => {
 };
 
 //Update an account
-
 const updateAccount = async (id, data) => {
   try {
-    const updatedUser = await Account.findOneAndUpdate(id, data);
+    const updatedUser = await Account.findByIdAndUpdate(id, data);
     return updatedUser;
   } catch (error) {
     console.log(

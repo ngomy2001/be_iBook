@@ -10,6 +10,10 @@ const {
 //Show a list of already account in system
 const getAllAccounts = async (req, res, next) => {
   const accounts = await AccountRepository.getAccounts();
+  console.log(
+    '🚀 ~ file: AccountController.js ~ line 13 ~ getAllAccounts ~ accounts',
+    JSON.stringify(accounts)
+  );
   return res.status(200).send(accounts);
 };
 
@@ -39,7 +43,7 @@ const createAccount = async (req, res, next) => {
 const updateAccountInfo = async (req, res, next) => {
   const { id } = req.params;
 
-  const user = await AccountRepository.getAccountById({ _id: id });
+  const user = await AccountRepository.getAccountById(id);
   console.log(
     '🚀 ~ file: AccountController.js ~ line 43 ~ updateAccountInfo ~ user',
     JSON.stringify(user)
