@@ -10,6 +10,7 @@ const accountRouter = require('./routes/api/account');
 const authorRouter = require('./routes/api/author');
 const publisherRouter = require('./routes/api/publisher');
 const categoryRouter = require('./routes/api/category');
+const bookRouter = require('./routes/api/book');
 
 const database = require('./database/connect');
 
@@ -18,7 +19,12 @@ var app = express();
 // // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
-
+const cors = require('cors');
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -31,6 +37,7 @@ app.use('/api/accounts', accountRouter);
 app.use('/api/author', authorRouter);
 app.use('/api/publisher', publisherRouter);
 app.use('/api/category', categoryRouter);
+app.use('/api/book', bookRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
