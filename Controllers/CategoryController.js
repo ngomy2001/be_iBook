@@ -3,6 +3,7 @@ const {
   CREATE_SUCCESS,
   NOT_FOUND,
   UPDATE_SUCCESS,
+  DELETE_SUCCESS,
 } = require('../Constants/message');
 //Show a list of already categories in system
 const getAllCategories = async (req, res, next) => {
