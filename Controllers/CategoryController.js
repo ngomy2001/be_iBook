@@ -1,4 +1,9 @@
 const CategoryRepository = require('../repositories/CategoryRepository');
+const {
+  CREATE_SUCCESS,
+  NOT_FOUND,
+  UPDATE_SUCCESS,
+} = require('../Constants/message');
 //Show a list of already categories in system
 const getAllCategories = async (req, res, next) => {
   const categories = await CategoryRepository.getCategories();
@@ -7,16 +12,23 @@ const getAllCategories = async (req, res, next) => {
 
 //Create a new category
 const createCategory = async (req, res, next) => {
-  const { name, description } = req.body;
-  if (!name || !description) return res.status(400).send(MISSING_PARAMS);
+  try {
+    const { name, description } = req.body;
+    if (!name || !description) return res.status(400).send(MISSING_PARAMS);
 
-  const data = {
-    name,
-    description,
-  };
+    const data = {
+      name,
+      description,
+    };
 
-  const newCategory = await CategoryRepository.addCategory(data);
-  if (newCategory) return res.status(200).send(CREATE_SUCCESS);
+    const newCategory = await CategoryRepository.addCategory(data);
+    res.status(200).send(CREATE_SUCCESS);
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: CategoryController.js ~ line 22 ~ createCategory ~ error',
+      error
+    );
+  }
 };
 
 //Update category information
