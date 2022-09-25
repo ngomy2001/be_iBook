@@ -3,7 +3,10 @@ const Book = require('../database/models/BookModel');
 //Retrieve all books in the system
 const getBooks = async () => {
   try {
-    const books = await Book.find({});
+    const books = await Book.find({})
+      .populate('categoryId')
+      .populate('authorId')
+      .populate('publisherId');
     return books;
   } catch (error) {
     console.log(

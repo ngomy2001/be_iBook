@@ -7,11 +7,11 @@ const {
   LOST_STATUS,
 } = require('../../Constants/bookStatus');
 
-const BookModel = require('../models/BookModel');
+//const BookModel = require('../models/BookModel');
 
 const BookCopySchema = new Schema(
   {
-    bookId: [{ type: Schema.Types.ObjectId, ref: BookModel }],
+    bookId: { type: Schema.Types.ObjectId, ref: 'Book' },
     status: {
       type: String,
       enum: [AVAILABLE_STATUS, RESERVED_STATUS, LOANED_STATUS, LOST_STATUS],
