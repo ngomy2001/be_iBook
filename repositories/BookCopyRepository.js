@@ -1,5 +1,7 @@
 const BookCopy = require('../database/models/BookCopyModel');
 
+const { AVAILABLE_STATUS } = require('../Constants/bookStatus');
+
 //Retrieve all book copies in the system
 const getBookCopies = async () => {
   try {
@@ -63,10 +65,45 @@ const updateBookCopy = async (id, data) => {
     );
   }
 };
+
+//Find available book copies
+const findAvailableItem = async (id) => {
+  try {
+    const items = await BookCopy.find({ bookId: id });
+    const count = 0;
+    for (const i = 0; i < items.length; i++) {
+      if (items[i].data.status == AVAILABLE_STATUS) {
+        count++;
+      }
+    }
+    return count;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: BookCopyRepository.js ~ line 81 ~ findAvailableItem ~ error',
+      error
+    );
+  }
+};
+
+//Delete a book copy
+
+const deleteBookCopy = async (id) => {
+  try {
+    const deletedBookCopy = await BookCopy.findByIdAndRemove(id);
+    return deletedBookCopy;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: BookCopyRepository.js ~ line 95 ~ deleteBookCopy ~ error',
+      error
+    );
+  }
+};
 module.exports = {
   getBookCopies,
   getBookCopyById,
   addNewBookCopy,
   findBookCopy,
   updateBookCopy,
+  findAvailableItem,
+  deleteBookCopy,
 };
