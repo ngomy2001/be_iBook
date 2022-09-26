@@ -1,13 +1,13 @@
 const BookCopyRepository = require('../repositories/BookCopyRepository');
 
+const { AVAILABLE_STATUS } = require('../Constants/bookStatus');
+
 const {
-  AVAILABLE_STATUS,
+  CREATE_SUCCESS,
   NOT_FOUND,
   UPDATE_SUCCESS,
   DELETE_SUCCESS,
-} = require('../Constants/bookStatus');
-
-const { CREATE_SUCCESS } = require('../Constants/message');
+} = require('../Constants/message');
 //Show a list of already book copies in system
 const getBookCopies = async (req, res, next) => {
   try {

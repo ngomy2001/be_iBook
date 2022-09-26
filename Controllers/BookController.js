@@ -6,6 +6,7 @@ const {
   MISSING_PARAMS,
   NOT_FOUND,
   UPDATE_SUCCESS,
+  DELETE_SUCCESS,
 } = require('../Constants/message');
 
 //Show a list of already books in system
@@ -102,8 +103,23 @@ const updateBookInfo = async (req, res, next) => {
   const updatedBook = await BookRepository.updateBook(id, data);
   return res.status(200).send(UPDATE_SUCCESS);
 };
+
+//Delete a book infor
+const deleteBookInfor = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const deletedBook = await BookCopyRepository.deleteBookCopy(id);
+    return res.status(200).send(DELETE_SUCCESS);
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: BookController.js ~ line 114 ~ deleteBookInfor ~ error',
+      error
+    );
+  }
+};
 module.exports = {
   getAllBooks,
   createBook,
   updateBookInfo,
+  deleteBookInfor,
 };

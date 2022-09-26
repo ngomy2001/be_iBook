@@ -48,7 +48,7 @@ const addNewBookCopy = async (data) => {
   } catch (error) {
     console.log(
       '🚀 ~ file: BookCopyRepository.js ~ line 9 ~ addNewBookCopy ~ error',
-      JSON.stringify(error)
+      error
     );
   }
 };
