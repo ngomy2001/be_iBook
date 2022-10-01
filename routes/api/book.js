@@ -4,6 +4,7 @@ const {
   getAllBooks,
   createBook,
   updateBookInfo,
+  deleteBookInfor,
 } = require('../../Controllers/BookController');
 
 /**
@@ -39,5 +40,17 @@ router.post('/createBook', createBook);
  *         description: OK.
  */
 router.put('/:id', updateBookInfo);
+
+/**
+ * @swagger
+ * /api/book/{id}:
+ *   delete:
+ *     summary: Delete a book info.
+ *     description: Remove an information of a book from database.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
+router.delete('/:id', deleteBookInfor);
 
 module.exports = router;

@@ -67,10 +67,24 @@ const updateBook = async (id, data) => {
     );
   }
 };
+
+//Delete a book
+const deleteBook = async (id) => {
+  try {
+    const deletedBook = await Book.findByIdAndRemove(id);
+    return deletedBook;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: BookRepository.js ~ line 77 ~ deleteBook ~ error',
+      error
+    );
+  }
+};
 module.exports = {
   getBooks,
   getBookById,
   findBook,
   addNewBook,
   updateBook,
+  deleteBook,
 };
