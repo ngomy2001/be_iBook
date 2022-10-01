@@ -14,6 +14,7 @@ const publisherRouter = require('./routes/api/publisher');
 const categoryRouter = require('./routes/api/category');
 const bookRouter = require('./routes/api/book');
 const bookCopyRouter = require('./routes/api/bookCopy');
+const invoiceRouter = require('./routes/api/invoice');
 
 const database = require('./database/connect');
 
@@ -65,6 +66,7 @@ app.use('/api/publisher', publisherRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/book', bookRouter);
 app.use('/api/bookCopy', bookCopyRouter);
+app.use('/api/invoice', invoiceRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
