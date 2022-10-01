@@ -80,9 +80,24 @@ const deleteBookCopyInfor = async (req, res, next) => {
   }
 };
 
+//Find available book copies
+const findAvailableItems = async (req, res, next) => {
+  try {
+    const { bookId } = req.params;
+    console.log(
+      '🚀 ~ file: BookCopyController.js ~ line 87 ~ findAvailableItems ~ bookId',
+      bookId
+    );
+
+    const availableItems = await BookCopyRepository.findAvailableItem(bookId);
+    return res.status(200).send(availableItems);
+  } catch (error) {}
+};
+
 module.exports = {
   getBookCopies,
   createBookCopy,
   updateBookCopyInfo,
   deleteBookCopyInfor,
+  findAvailableItems,
 };

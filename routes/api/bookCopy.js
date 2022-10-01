@@ -6,6 +6,7 @@ const {
   createBookCopy,
   updateBookCopyInfo,
   deleteBookCopyInfor,
+  findAvailableItems,
 } = require('../../Controllers/BookCopyController');
 
 /**
@@ -20,6 +21,7 @@ const {
  */
 router.get('/', getBookCopies);
 
+router.get('/:bookId', findAvailableItems);
 /**
  * @swagger
  * /api/bookCopy/createBookCopy:

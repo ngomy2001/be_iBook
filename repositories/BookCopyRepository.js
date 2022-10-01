@@ -70,13 +70,18 @@ const updateBookCopy = async (id, data) => {
 const findAvailableItem = async (id) => {
   try {
     const items = await BookCopy.find({ bookId: id });
-    const count = 0;
-    for (const i = 0; i < items.length; i++) {
-      if (items[i].data.status == AVAILABLE_STATUS) {
+    console.log(
+      '🚀 ~ file: BookCopyRepository.js ~ line 73 ~ findAvailableItem ~ items',
+      items
+    );
+
+    let count = 0;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].status == AVAILABLE_STATUS) {
         count++;
       }
     }
-    return count;
+    return items;
   } catch (error) {
     console.log(
       '🚀 ~ file: BookCopyRepository.js ~ line 81 ~ findAvailableItem ~ error',
