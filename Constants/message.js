@@ -6,6 +6,7 @@ const USER_NOT_FOUND = 'User is not found';
 const AUTHOR_NOT_FOUND = 'Author is not found';
 const DELETE_SUCCESS = 'You has deleted successfully';
 const NOT_FOUND = 'Not found';
+const INVALID_PASSWORD = 'Password is not correct';
 module.exports = {
   MISSING_PARAMS,
   EXISTED_USER,
@@ -15,4 +16,5 @@ module.exports = {
   AUTHOR_NOT_FOUND,
   DELETE_SUCCESS,
   NOT_FOUND,
+  INVALID_PASSWORD,
 };
