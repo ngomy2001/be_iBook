@@ -8,6 +8,7 @@ const swaggerUi = require('swagger-ui-express');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const authRouter = require('./routes/api/auth');
 const accountRouter = require('./routes/api/account');
 const authorRouter = require('./routes/api/author');
 const publisherRouter = require('./routes/api/publisher');
@@ -67,6 +68,7 @@ app.use('/api/category', categoryRouter);
 app.use('/api/book', bookRouter);
 app.use('/api/bookCopy', bookCopyRouter);
 app.use('/api/invoice', invoiceRouter);
+app.use('/api/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
