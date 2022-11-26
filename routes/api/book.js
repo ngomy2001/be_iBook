@@ -5,6 +5,7 @@ const {
   createBook,
   updateBookInfo,
   deleteBookInfor,
+  updateBookSample,
 } = require('../../Controllers/BookController');
 
 /**
@@ -40,6 +41,7 @@ router.post('/createBook', createBook);
  *         description: OK.
  */
 router.put('/:id', updateBookInfo);
+router.put('/sample/:id', updateBookSample);
 
 /**
  * @swagger

@@ -26,6 +26,7 @@ const createBook = async (req, res, next) => {
       language,
       numberOfPages,
       numberOfCopies,
+      sample,
     } = req.body;
     if (
       !title ||
@@ -46,6 +47,7 @@ const createBook = async (req, res, next) => {
       language,
       numberOfPages,
       numberOfCopies,
+      sample,
     };
 
     const newBook = await BookRepository.addNewBook(data);
@@ -104,6 +106,30 @@ const updateBookInfo = async (req, res, next) => {
   return res.status(200).send(UPDATE_SUCCESS);
 };
 
+//Update sample
+const updateBookSample = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const book = await BookRepository.getBookById(id);
+
+    if (!book) return res.status(404).send(NOT_FOUND);
+    const { sample } = req.body;
+    const data = {
+      sample,
+    };
+    console.log('sample', sample);
+
+    const updatedBookSample = await BookRepository.updateBook(id, data);
+    if (updatedBookSample) return res.status(200).send(UPDATE_SUCCESS);
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: BookController.js ~ line 125 ~ updateBookSample ~ error',
+      error
+    );
+  }
+};
+
 //Delete a book infor
 const deleteBookInfor = async (req, res, next) => {
   try {
@@ -122,4 +148,5 @@ module.exports = {
   createBook,
   updateBookInfo,
   deleteBookInfor,
+  updateBookSample,
 };
