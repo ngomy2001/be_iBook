@@ -75,7 +75,12 @@ const createBook = async (req, res, next) => {
     );
   }
 };
-
+//Find a book by Id
+const findBookById = async (req, res, next) => {
+  const { id } = req.params;
+  const foundBook = await BookRepository.getBookById(id);
+  return res.send(foundBook);
+};
 //Update book information
 const updateBookInfo = async (req, res, next) => {
   const { id } = req.params;
@@ -149,4 +154,5 @@ module.exports = {
   updateBookInfo,
   deleteBookInfor,
   updateBookSample,
+  findBookById,
 };
