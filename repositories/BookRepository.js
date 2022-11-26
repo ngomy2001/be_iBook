@@ -50,7 +50,7 @@ const addNewBook = async (data) => {
   } catch (error) {
     console.log(
       '🚀 ~ file: BookRepository.js ~ line 9 ~ addNewBook ~ error',
-      JSON.stringify(error)
+      error
     );
   }
 };
