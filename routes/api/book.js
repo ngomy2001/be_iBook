@@ -5,6 +5,8 @@ const {
   createBook,
   updateBookInfo,
   deleteBookInfor,
+  updateBookSample,
+  findBookById,
 } = require('../../Controllers/BookController');
 
 /**
@@ -18,6 +20,8 @@ const {
  *         description: OK.
  */
 router.get('/', getAllBooks);
+
+router.get('/:id', findBookById);
 /**
  * @swagger
  * /api/book/createBook:
@@ -40,6 +44,18 @@ router.post('/createBook', createBook);
  *         description: OK.
  */
 router.put('/:id', updateBookInfo);
+
+/**
+ * @swagger
+ * /api/book/sample/{id}:
+ *   delete:
+ *     summary: Upload a book sample.
+ *     description: Upload a book sample to database.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
+router.put('/sample/:id', updateBookSample);
 
 /**
  * @swagger

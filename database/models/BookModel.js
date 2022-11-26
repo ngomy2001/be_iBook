@@ -19,6 +19,7 @@ const BookSchema = new Schema(
     },
     numberOfPages: Number,
     numberOfCopies: Number,
+    sample: String,
   },
   {
     timestamps: true,
