@@ -15,6 +15,18 @@ const getBookCopies = async () => {
   }
 };
 
+//Retrieve all book copies in the system
+const getBookCopiesByBookId = async (bookId) => {
+  try {
+    const bookCopies = await BookCopy.find({
+      $and: [bookId, { status: 'Available' }],
+    });
+    return bookCopies;
+  } catch (error) {
+    console.log('error bc', error);
+  }
+};
+
 //Find a book copy by Id
 const getBookCopyById = async (id) => {
   try {
@@ -111,4 +123,5 @@ module.exports = {
   updateBookCopy,
   findAvailableItem,
   deleteBookCopy,
+  getBookCopiesByBookId,
 };

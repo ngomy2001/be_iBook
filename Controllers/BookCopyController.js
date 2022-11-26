@@ -21,6 +21,20 @@ const getBookCopies = async (req, res, next) => {
   }
 };
 
+//Show a list of already book copies in system
+const getBookCopiesByBookId = async (req, res, next) => {
+  try {
+    const { bookId } = req.params;
+    const copies = await BookCopyRepository.getBookCopiesByBookId({ bookId });
+    return res.status(200).send(copies);
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: BookCopyController.js ~ line 9 ~ getBookCopies ~ error',
+      error
+    );
+  }
+};
+
 //Create a new book copy
 const createBookCopy = async (req, res, next) => {
   try {
@@ -100,4 +114,5 @@ module.exports = {
   updateBookCopyInfo,
   deleteBookCopyInfor,
   findAvailableItems,
+  getBookCopiesByBookId,
 };
