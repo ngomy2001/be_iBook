@@ -148,6 +148,35 @@ const deleteBookInfor = async (req, res, next) => {
     );
   }
 };
+
+//Find book by Month
+const countBookEachMonth = async (req, res, next) => {
+  try {
+    const date = new Date();
+    let month;
+    let response = [];
+    const year = date.getFullYear();
+    for (month = 0; month < 12; month++) {
+      let startDate = new Date(year, month, 1);
+      let endDate = new Date(year, month + 1);
+      const foundBooks = await BookRepository.findBookByMonth(
+        startDate,
+        endDate
+      );
+      const numberOfBook = foundBooks.length;
+      await response.push({
+        monthValue: month + 1,
+        numberOfBookVal: numberOfBook,
+      });
+    }
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: BookController.js ~ line 159 ~ findBookByMonth ~ error',
+      error
+    );
+  }
+};
 module.exports = {
   getAllBooks,
   createBook,
@@ -155,4 +184,5 @@ module.exports = {
   deleteBookInfor,
   updateBookSample,
   findBookById,
+  countBookEachMonth,
 };

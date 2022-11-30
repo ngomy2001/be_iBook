@@ -7,6 +7,7 @@ const {
   deleteBookInfor,
   updateBookSample,
   findBookById,
+  countBookEachMonth,
 } = require('../../Controllers/BookController');
 
 /**
@@ -20,8 +21,10 @@ const {
  *         description: OK.
  */
 router.get('/', getAllBooks);
+router.get('/countBookEachMonth', countBookEachMonth);
 
 router.get('/:id', findBookById);
+
 /**
  * @swagger
  * /api/book/createBook:

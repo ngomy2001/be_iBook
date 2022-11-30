@@ -42,6 +42,23 @@ const findBook = async (option) => {
   }
 };
 
+//Find book by Month
+const findBookByMonth = async (startDate, endDate) => {
+  try {
+    const books = await Book.find({
+      createdAt: {
+        $gte: startDate,
+        $lte: endDate,
+      },
+    });
+    return books;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: BookRepository.js ~ line 50 ~ findBookByMonth ~ error',
+      error
+    );
+  }
+};
 //Create a new book
 const addNewBook = async (data) => {
   try {
@@ -87,4 +104,5 @@ module.exports = {
   addNewBook,
   updateBook,
   deleteBook,
+  findBookByMonth,
 };
