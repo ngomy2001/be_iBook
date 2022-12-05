@@ -4,6 +4,7 @@ const {
   getAllInvoices,
   createInvoice,
   updateInvoiceInfo,
+  updateInvoiceStatus,
   deleteInvoiceInfor,
 } = require('../../Controllers/InvoiceController');
 /**
@@ -30,6 +31,17 @@ router.get('/', getAllInvoices);
 router.post('/createInvoice', createInvoice);
 /**
  * @swagger
+ * /api/invoice/updateStatus/{id}:
+ *   put:
+ *     summary: Update an invoice status.
+ *     description: Change a status of an invoice.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
+router.put('/updateStatus/:id', updateInvoiceStatus);
+/**
+ * @swagger
  * /api/invoice/{id}:
  *   put:
  *     summary: Update an invoice info.
@@ -39,6 +51,7 @@ router.post('/createInvoice', createInvoice);
  *         description: OK.
  */
 router.put('/:id', updateInvoiceInfo);
+
 /**
  * @swagger
  * /api/invoice/{id}:
