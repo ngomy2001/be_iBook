@@ -24,6 +24,26 @@ const getAccountById = async (id) => {
     );
   }
 };
+//Search account
+const searchAccount = async (keyword) => {
+  try {
+    const queryRegx = new RegExp(keyword, 'i');
+    const account = await Account.find({
+      $or: [
+        { firstName: { $regex: queryRegx } },
+        { lastName: { $regex: queryRegx } },
+        { role: { $regex: queryRegx } },
+        { email: { $regex: queryRegx } },
+      ],
+    });
+    return account;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: AccountRepository.js ~ line 41 ~ searchAccount ~ error',
+      error
+    );
+  }
+};
 
 //Find an account by email
 const getAccountByEmail = async (email) => {
@@ -83,4 +103,5 @@ module.exports = {
   getAccountByEmail,
   updateAccount,
   deleteAccount,
+  searchAccount,
 };

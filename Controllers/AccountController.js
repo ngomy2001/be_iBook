@@ -17,6 +17,18 @@ const getAllAccounts = async (req, res, next) => {
   return res.status(200).send(accounts);
 };
 
+//Search account
+const searchAccount = async (req, res, next) => {
+  try {
+    const { keyword } = req.params;
+    const foundAccount = await AccountRepository.searchAccount(keyword);
+    if (!foundAccount) return res.status(404).send(NOT_FOUND);
+    return res.send(foundAccount);
+  } catch (error) {
+    console.log('error: ', error);
+  }
+};
+
 //Create a new account
 const createAccount = async (req, res, next) => {
   const { firstName, lastName, role, email, password } = req.body;
@@ -66,4 +78,5 @@ module.exports = {
   getAllAccounts,
   createAccount,
   updateAccountInfo,
+  searchAccount,
 };
