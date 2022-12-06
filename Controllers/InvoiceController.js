@@ -18,7 +18,17 @@ const getAllInvoices = async (req, res, next) => {
     );
   }
 };
-
+//Search invoice
+const searchInvoice = async (req, res, next) => {
+  try {
+    const { keyword } = req.params;
+    const foundInvoices = await InvoiceRepository.searchInvoice(keyword);
+    if (!foundInvoices) return res.status(404).send(NOT_FOUND);
+    return res.send(foundInvoices);
+  } catch (error) {
+    console.log('error: ', error);
+  }
+};
 //Create a new invoice
 const createInvoice = async (req, res, next) => {
   try {
@@ -115,4 +125,5 @@ module.exports = {
   updateInvoiceInfo,
   deleteInvoiceInfor,
   updateInvoiceStatus,
+  searchInvoice,
 };

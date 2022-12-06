@@ -5,6 +5,7 @@ const {
   createAuthor,
   updateAuthorInfo,
   deleteAuthorInfor,
+  searchAuthor,
 } = require('../../Controllers/AuthorController');
 
 /**
@@ -18,6 +19,18 @@ const {
  *         description: OK.
  */
 router.get('/', getAllAuthors);
+
+/**
+ * @swagger
+ * /api/author/searchAuthor/:keyword:
+ *   get:
+ *     summary: Search an author by keyword.
+ *     description: Search an author by keyword.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
+router.get('/searchAuthor/:keyword', searchAuthor);
 /**
  * @swagger
  * /api/author/createAuthor:

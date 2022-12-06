@@ -5,6 +5,7 @@ const {
   createCategory,
   updateCategoryInfo,
   deleteCategoryInfor,
+  searchCategoryItem,
 } = require('../../Controllers/CategoryController');
 /**
  * @swagger
@@ -17,6 +18,17 @@ const {
  *         description: OK.
  */
 router.get('/', getAllCategories);
+/**
+ * @swagger
+ * /api/category/searchCategory/:keyword:
+ *   get:
+ *     summary: Search a category by keyword.
+ *     description: Search a category by keyword.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
+router.get('/searchCategory/:keyword', searchCategoryItem);
 /**
  * @swagger
  * /api/category/createCategory:

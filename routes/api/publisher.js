@@ -5,6 +5,7 @@ const {
   createPublisher,
   updatePublisherInfo,
   deletePublisherInfor,
+  searchPublisher,
 } = require('../../Controllers/PublisherController');
 /**
  * @swagger
@@ -17,6 +18,18 @@ const {
  *         description: OK.
  */
 router.get('/', getAllPublishers);
+
+/**
+ * @swagger
+ * /api/searchPublisher/:keyword:
+ *   get:
+ *     summary: Search a publisher by keyword.
+ *     description: Search a publisher by keyword.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
+router.get('/searchPublisher/:keyword', searchPublisher);
 /**
  * @swagger
  * /api/publisher/createPublisher:

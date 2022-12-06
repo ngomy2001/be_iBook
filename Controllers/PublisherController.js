@@ -11,7 +11,20 @@ const getAllPublishers = async (req, res, next) => {
   const publishers = await PublisherRepository.getPublishers();
   return res.status(200).send(publishers);
 };
-
+//Search publisher
+const searchPublisher = async (req, res, next) => {
+  try {
+    const { keyword } = req.params;
+    const foundPublishers = await PublisherRepository.searchPublisher(keyword);
+    if (!foundPublishers) return res.status(404).send(NOT_FOUND);
+    return res.send(foundPublishers);
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: PublisherController.js ~ line 22 ~ searchPublisher ~ error',
+      error
+    );
+  }
+};
 //Create a new publisher
 const createPublisher = async (req, res, next) => {
   const { name, description } = req.body;
@@ -54,4 +67,5 @@ module.exports = {
   createPublisher,
   updatePublisherInfo,
   deletePublisherInfor,
+  searchPublisher,
 };

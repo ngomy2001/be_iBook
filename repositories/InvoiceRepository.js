@@ -21,6 +21,30 @@ const getInvoices = async () => {
   }
 };
 
+//Search invoice
+const searchInvoice = async (keyword) => {
+  try {
+    const queryRegx = new RegExp(keyword, 'i');
+    const invoice = await Invoice.find({
+      $or: [{ status: { $regex: queryRegx } }],
+    })
+      .populate('userId')
+      .populate({
+        path: 'bookCopyId',
+        populate: {
+          path: 'bookId',
+          model: 'Book',
+        },
+      });
+    return invoice;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: InvoiceRepository.js ~ line 33 ~ searchInvoice ~ error',
+      error
+    );
+  }
+};
+
 //Find an invoice by Id
 const getInvoiceById = async (id) => {
   try {
@@ -79,4 +103,5 @@ module.exports = {
   addInvoice,
   updateInvoice,
   deleteInvoice,
+  searchInvoice,
 };

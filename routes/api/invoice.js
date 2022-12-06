@@ -6,7 +6,20 @@ const {
   updateInvoiceInfo,
   updateInvoiceStatus,
   deleteInvoiceInfor,
+  searchInvoice,
 } = require('../../Controllers/InvoiceController');
+/**
+ * @swagger
+ * /api/invoice/searchInvoice/:keyword:
+ *   get:
+ *     summary: Search an invoice by keyword.
+ *     description: Search an invoice by keyword.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
+router.get('/searchInvoice/:keyword', searchInvoice);
+
 /**
  * @swagger
  * /api/invoice:

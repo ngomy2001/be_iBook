@@ -11,6 +11,18 @@ const getAllCategories = async (req, res, next) => {
   return res.status(200).send(categories);
 };
 
+//Search category
+const searchCategoryItem = async (req, res, next) => {
+  try {
+    const { keyword } = req.params;
+    const foundCategories = await CategoryRepository.searchCategory(keyword);
+    if (!foundCategories) return res.status(404).send(NOT_FOUND);
+    return res.send(foundCategories);
+  } catch (error) {
+    console.log('error: ', error);
+  }
+};
+
 //Create a new category
 const createCategory = async (req, res, next) => {
   try {
@@ -60,4 +72,5 @@ module.exports = {
   createCategory,
   updateCategoryInfo,
   deleteCategoryInfor,
+  searchCategoryItem,
 };
