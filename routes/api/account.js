@@ -4,6 +4,7 @@ const {
   getAllAccounts,
   createAccount,
   updateAccountInfo,
+  searchAccount,
 } = require('../../Controllers/AccountController');
 /**
  * @swagger
@@ -16,6 +17,8 @@ const {
  *         description: OK.
  */
 router.get('/', getAllAccounts);
+
+router.get('/searchAccount/:keyword', searchAccount);
 /**
  * @swagger
  * /api/accounts/createAccount:
