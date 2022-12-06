@@ -71,6 +71,31 @@ const updateInvoiceInfo = async (req, res, next) => {
   }
 };
 
+//Update status
+const updateInvoiceStatus = async (req, res, next) => {
+  try {
+    console.log('hello');
+    const { id } = req.params;
+    console.log('aaa', id);
+
+    const invoice = await InvoiceRepository.getInvoiceById(id);
+
+    if (!invoice) return res.status(404).send(NOT_FOUND);
+    const { status } = req.body;
+    const data = {
+      status,
+    };
+
+    const updatedInvoice = await InvoiceRepository.updateInvoice(id, data);
+    if (updatedInvoice) return res.status(200).send(UPDATE_SUCCESS);
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 90 ~ updateInvoiceStatus ~ error',
+      error
+    );
+  }
+};
+
 //Delete an invoice
 const deleteInvoiceInfor = async (req, res, next) => {
   try {
@@ -89,4 +114,5 @@ module.exports = {
   createInvoice,
   updateInvoiceInfo,
   deleteInvoiceInfor,
+  updateInvoiceStatus,
 };

@@ -3,7 +3,15 @@ const Invoice = require('../database/models/InvoiceModel');
 //Retrieve all invoices in the system
 const getInvoices = async () => {
   try {
-    const invoices = await Invoice.find({});
+    const invoices = await Invoice.find({})
+      .populate('userId')
+      .populate({
+        path: 'bookCopyId',
+        populate: {
+          path: 'bookId',
+          model: 'Book',
+        },
+      });
     return invoices;
   } catch (error) {
     console.log(
@@ -12,8 +20,6 @@ const getInvoices = async () => {
     );
   }
 };
-
-
 
 //Find an invoice by Id
 const getInvoiceById = async (id) => {

@@ -8,6 +8,7 @@ const {
   updateBookSample,
   findBookById,
   countBookEachMonth,
+  searchBookItem,
 } = require('../../Controllers/BookController');
 
 /**
@@ -21,8 +22,41 @@ const {
  *         description: OK.
  */
 router.get('/', getAllBooks);
+
+/**
+ * @swagger
+ * /api/countBookEachMonth:
+ *   get:
+ *     summary: Calculate the number of new books of each month.
+ *     description: Calculate the number of new books of each month.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
 router.get('/countBookEachMonth', countBookEachMonth);
 
+/**
+ * @swagger
+ * /api/searchBook/:keyword:
+ *   get:
+ *     summary: Search a book by keyword.
+ *     description: Search a book by keyword.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
+router.get('/searchBook/:keyword', searchBookItem);
+
+/**
+ * @swagger
+ * /api/book/:id:
+ *   get:
+ *     summary: Search a book by Id.
+ *     description: Search a book by Id.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
 router.get('/:id', findBookById);
 
 /**
