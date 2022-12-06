@@ -17,7 +17,16 @@ const {
  *         description: OK.
  */
 router.get('/', getAllAccounts);
-
+/**
+ * @swagger
+ * /api/accounts/searchAccount/:keyword:
+ *   get:
+ *     summary: Search an user by keyword.
+ *     description: Search an user by keyword.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
 router.get('/searchAccount/:keyword', searchAccount);
 /**
  * @swagger

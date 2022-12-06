@@ -25,7 +25,24 @@ const getCategoryById = async (id) => {
     );
   }
 };
-
+//Search category
+const searchCategory = async (keyword) => {
+  try {
+    const queryRegx = new RegExp(keyword, 'i');
+    const category = await Category.find({
+      $or: [
+        { name: { $regex: queryRegx } },
+        { description: { $regex: queryRegx } },
+      ],
+    });
+    return category;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: CategoryRepository.js ~ line 40 ~ searchCategory ~ error',
+      error
+    );
+  }
+};
 //Find a category by option
 const findCategory = async (option) => {
   try {
@@ -84,4 +101,5 @@ module.exports = {
   addCategory,
   updateCategory,
   deleteCategory,
+  searchCategory,
 };
