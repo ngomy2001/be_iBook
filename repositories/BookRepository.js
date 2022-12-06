@@ -51,7 +51,10 @@ const searchBook = async (title) => {
         { title: { $regex: queryRegx } },
         { language: { $regex: queryRegx } },
       ],
-    });
+    })
+      .populate('categoryId')
+      .populate('authorId')
+      .populate('publisherId');
     return book;
   } catch (error) {
     console.log(
