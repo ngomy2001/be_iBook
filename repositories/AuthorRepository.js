@@ -13,6 +13,25 @@ const getAuthors = async () => {
   }
 };
 
+//Search author
+const searchAuthor = async (title) => {
+  try {
+    const queryRegx = new RegExp(title, 'i');
+    const author = await Author.find({
+      $or: [
+        { firstName: { $regex: queryRegx } },
+        { lastName: { $regex: queryRegx } },
+      ],
+    });
+    return author;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: AuthorRepository.js ~ line 28 ~ searchAuthor ~ error',
+      error
+    );
+  }
+};
+
 //Find an author by Id
 const getAuthorById = async (id) => {
   try {
@@ -85,4 +104,5 @@ module.exports = {
   addAuthor,
   updateAuthor,
   deleteAuthor,
+  searchAuthor,
 };

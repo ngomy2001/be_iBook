@@ -12,6 +12,20 @@ const getAllAuthors = async (req, res, next) => {
   return res.status(200).send(authors);
 };
 
+//Search author
+const searchAuthor = async (req, res, next) => {
+  try {
+    const { keyword } = req.params;
+    const foundAuthors = await AuthorRepository.searchAuthor(keyword);
+    if (!foundAuthors) return res.status(404).send(NOT_FOUND);
+    return res.send(foundAuthors);
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: AuthorController.js ~ line 22 ~ searchAuthor ~ error',
+      error
+    );
+  }
+};
 //Create a new author
 const createAuthor = async (req, res, next) => {
   const { firstName, lastName, description } = req.body;
@@ -61,4 +75,5 @@ module.exports = {
   createAuthor,
   updateAuthorInfo,
   deleteAuthorInfor,
+  searchAuthor,
 };
