@@ -46,7 +46,6 @@ const findBook = async (condition) => {
 const searchBook = async (title) => {
   try {
     const queryRegx = new RegExp(title, 'i');
-    // const book = await Book.find({ title });
     const book = await Book.find({
       $or: [
         { title: { $regex: queryRegx } },

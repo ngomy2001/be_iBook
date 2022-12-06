@@ -85,8 +85,8 @@ const findBookById = async (req, res, next) => {
 //Search book
 const searchBookItem = async (req, res, next) => {
   try {
-    const { title } = req.params;
-    const foundBooks = await BookRepository.searchBook(title);
+    const { keyword } = req.params;
+    const foundBooks = await BookRepository.searchBook(keyword);
     if (!foundBooks) return res.status(404).send(NOT_FOUND);
     return res.send(foundBooks);
   } catch (error) {
