@@ -8,6 +8,7 @@ const {
   updateBookSample,
   findBookById,
   countBookEachMonth,
+  searchBookItem,
 } = require('../../Controllers/BookController');
 
 /**
@@ -22,7 +23,7 @@ const {
  */
 router.get('/', getAllBooks);
 router.get('/countBookEachMonth', countBookEachMonth);
-
+router.get('/searchBook/:title', searchBookItem);
 router.get('/:id', findBookById);
 
 /**

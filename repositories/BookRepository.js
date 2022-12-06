@@ -30,14 +30,34 @@ const getBookById = async (id) => {
 };
 
 //Find by option
-const findBook = async (option) => {
+const findBook = async (condition) => {
   try {
-    const book = await Book.find({ option });
+    const book = await Book.find({ condition });
     return book;
   } catch (error) {
     console.log(
       '🚀 ~ file: BookRepository.js ~ line 35 ~ findBook ~ error',
       JSON.stringify(error)
+    );
+  }
+};
+
+//Search book
+const searchBook = async (title) => {
+  try {
+    const queryRegx = new RegExp(title, 'i');
+    // const book = await Book.find({ title });
+    const book = await Book.find({
+      $or: [
+        { title: { $regex: queryRegx } },
+        { language: { $regex: queryRegx } },
+      ],
+    });
+    return book;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: BookRepository.js ~ line 35 ~ findBook ~ error',
+      error
     );
   }
 };
@@ -105,4 +125,5 @@ module.exports = {
   updateBook,
   deleteBook,
   findBookByMonth,
+  searchBook,
 };

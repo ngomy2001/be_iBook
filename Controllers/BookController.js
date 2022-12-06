@@ -81,6 +81,18 @@ const findBookById = async (req, res, next) => {
   const foundBook = await BookRepository.getBookById(id);
   return res.send(foundBook);
 };
+
+//Search book
+const searchBookItem = async (req, res, next) => {
+  try {
+    const { title } = req.params;
+    const foundBooks = await BookRepository.searchBook(title);
+    if (!foundBooks) return res.status(404).send(NOT_FOUND);
+    return res.send(foundBooks);
+  } catch (error) {
+    console.log('error: ', error);
+  }
+};
 //Update book information
 const updateBookInfo = async (req, res, next) => {
   const { id } = req.params;
@@ -185,4 +197,5 @@ module.exports = {
   updateBookSample,
   findBookById,
   countBookEachMonth,
+  searchBookItem,
 };
