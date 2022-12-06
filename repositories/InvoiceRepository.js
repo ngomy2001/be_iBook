@@ -27,7 +27,15 @@ const searchInvoice = async (keyword) => {
     const queryRegx = new RegExp(keyword, 'i');
     const invoice = await Invoice.find({
       $or: [{ status: { $regex: queryRegx } }],
-    });
+    })
+      .populate('userId')
+      .populate({
+        path: 'bookCopyId',
+        populate: {
+          path: 'bookId',
+          model: 'Book',
+        },
+      });
     return invoice;
   } catch (error) {
     console.log(
