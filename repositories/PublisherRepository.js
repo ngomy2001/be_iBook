@@ -13,6 +13,21 @@ const getPublishers = async () => {
   }
 };
 
+//Search publisher
+const searchPublisher = async (keyword) => {
+  try {
+    const queryRegx = new RegExp(keyword, 'i');
+    const publisher = await Publisher.find({
+      $or: [{ name: { $regex: queryRegx } }],
+    });
+    return publisher;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: PublisherRepository.js ~ line 25 ~ searchPublisher ~ error',
+      error
+    );
+  }
+};
 //Find a publisher by Id
 const getPublisherById = async (id) => {
   try {
@@ -84,4 +99,5 @@ module.exports = {
   addPublisher,
   updatePublisher,
   deletePublisher,
+  searchPublisher,
 };
