@@ -102,39 +102,27 @@ const updateInvoiceStatus = async (req, res, next) => {
     const { id } = req.params;
 
     const invoice = await InvoiceRepository.getInvoiceById(id);
-    console.log(
-      '🚀 ~ file: InvoiceController.js ~ line 91 ~ updateInvoiceStatus ~ invoice',
-      invoice
-    );
+
     if (!invoice) return res.status(404).send(NOT_FOUND);
 
     const { status } = req.body;
-    console.log(
-      '🚀 ~ file: InvoiceController.js ~ line 117 ~ updateInvoiceStatus ~ status',
-      status
-    );
     const data = {
       status,
     };
+    console.log('data', data);
     const updatedInvoice = await InvoiceRepository.updateInvoice(id, data);
-
+    console.log('test', updatedInvoice);
     const bookCopyId = invoice.bookCopyId;
     let bookCopyStatus;
-    console.log(
-      '🚀 ~ file: InvoiceController.js ~ line 110 ~ updateInvoiceStatus ~ bookCopyId',
-      bookCopyId
-    );
+
     if (updatedInvoice) {
-      if (invoice.status == WAITING_STATUS) {
+      if (data.status == WAITING_STATUS) {
         bookCopyStatus = RESERVED_STATUS;
-      } else if (invoice.status == DELIVERED_STATUS) {
+      } else if (data.status == DELIVERED_STATUS) {
         bookCopyStatus = LOANED_STATUS;
-      } else if (
-        invoice.status == COMPLETED_STATUS ||
-        status == CANCELED_STATUS
-      ) {
+      } else if (data.status == COMPLETED_STATUS || status == CANCELED_STATUS) {
         bookCopyStatus = AVAILABLE_STATUS;
-      } else if (invoice.status == INVOICE_LOST_STATUS) {
+      } else if (data.status == INVOICE_LOST_STATUS) {
         bookCopyStatus = LOST_STATUS;
       }
       const bookCopyData = { status: bookCopyStatus };
