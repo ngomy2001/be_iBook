@@ -151,8 +151,18 @@ const updateBookSample = async (req, res, next) => {
 const deleteBookInfor = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedBook = await BookCopyRepository.deleteBookCopy(id);
-    return res.status(200).send(DELETE_SUCCESS);
+    const foundBook = await BookRepository.getBookById(id);
+    console.log('Number copies: ', foundBook.numberOfCopies);
+    const availableItems = await BookCopyRepository.findAvailableItem(id);
+    console.log('Available items: ', availableItems.length);
+    if (foundBook.numberOfCopies == availableItems.length) {
+      const deletedBookCopy = await BookCopyRepository.deleteBookCopyByBookId(
+        id
+      );
+      const deletedBook = await BookRepository.deleteBook(id);
+      if (deletedBookCopy & deletedBook)
+        return res.status(200).send(DELETE_SUCCESS);
+    } else return res.status(400);
   } catch (error) {
     console.log(
       '🚀 ~ file: BookController.js ~ line 114 ~ deleteBookInfor ~ error',

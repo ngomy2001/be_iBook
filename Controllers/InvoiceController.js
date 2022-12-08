@@ -32,6 +32,7 @@ const getAllInvoices = async (req, res, next) => {
     );
   }
 };
+
 //Search invoice
 const searchInvoice = async (req, res, next) => {
   try {
@@ -173,6 +174,35 @@ const deleteInvoiceInfor = async (req, res, next) => {
     );
   }
 };
+
+//Find invoice by Month
+const countInvoiceEachMonth = async (req, res, next) => {
+  try {
+    const date = new Date();
+    let month;
+    let response = [];
+    const year = date.getFullYear();
+    for (month = 0; month < 12; month++) {
+      let startDate = new Date(year, month, 1);
+      let endDate = new Date(year, month + 1);
+      const foundInvoices = await InvoiceRepository.findInvoiceByMonth(
+        startDate,
+        endDate
+      );
+      const numberOfInvoice = foundInvoices.length;
+      await response.push({
+        monthValue: month + 1,
+        numberOfInvoiceVal: numberOfInvoice,
+      });
+    }
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 200 ~ countInvoiceEachMonth ~ error',
+      error
+    );
+  }
+};
 module.exports = {
   getAllInvoices,
   createInvoice,
@@ -180,4 +210,5 @@ module.exports = {
   deleteInvoiceInfor,
   updateInvoiceStatus,
   searchInvoice,
+  countInvoiceEachMonth,
 };

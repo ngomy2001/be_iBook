@@ -7,7 +7,20 @@ const {
   updateInvoiceStatus,
   deleteInvoiceInfor,
   searchInvoice,
+  countInvoiceEachMonth,
 } = require('../../Controllers/InvoiceController');
+
+/**
+ * @swagger
+ * /api/invoice/countInvoiceEachMonth:
+ *   get:
+ *     summary: Calculate the number of new invoice of each month.
+ *     description: Calculate the number of new invoice of each month.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
+router.get('/countInvoiceEachMonth', countInvoiceEachMonth);
 /**
  * @swagger
  * /api/invoice/searchInvoice/:keyword:
