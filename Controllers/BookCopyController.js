@@ -54,7 +54,7 @@ const createBookCopy = async (req, res, next) => {
   }
 };
 
-//Update book copy information
+//Update book copy information/status
 const updateBookCopyInfo = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -68,7 +68,10 @@ const updateBookCopyInfo = async (req, res, next) => {
     const data = {
       status,
     };
-
+    console.log(
+      '🚀 ~ file: BookCopyController.js ~ line 69 ~ updateBookCopyInfo ~ data',
+      data
+    );
     const updatedBookCopy = await BookCopyRepository.updateBookCopy(id, data);
 
     return res.status(200).send(UPDATE_SUCCESS);

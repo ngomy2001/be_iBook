@@ -1,4 +1,5 @@
 const InvoiceRepository = require('../repositories/InvoiceRepository');
+const BookCopyRepository = require('../repositories/BookCopyRepository');
 const {
   CREATE_SUCCESS,
   MISSING_PARAMS,
@@ -6,6 +7,19 @@ const {
   UPDATE_SUCCESS,
   DELETE_SUCCESS,
 } = require('../Constants/message');
+const {
+  AVAILABLE_STATUS,
+  RESERVED_STATUS,
+  LOANED_STATUS,
+  INVOICE_LOST_STATUS,
+} = require('../Constants/bookStatus');
+const {
+  COMPLETED_STATUS,
+  CANCELED_STATUS,
+  WAITING_STATUS,
+  DELIVERED_STATUS,
+  LOST_STATUS,
+} = require('../Constants/invoiceStatus');
 //Show a list of already invoices in system
 const getAllInvoices = async (req, res, next) => {
   try {
@@ -87,15 +101,57 @@ const updateInvoiceStatus = async (req, res, next) => {
     const { id } = req.params;
 
     const invoice = await InvoiceRepository.getInvoiceById(id);
-
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 91 ~ updateInvoiceStatus ~ invoice',
+      invoice
+    );
     if (!invoice) return res.status(404).send(NOT_FOUND);
+
     const { status } = req.body;
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 117 ~ updateInvoiceStatus ~ status',
+      status
+    );
     const data = {
       status,
     };
-
     const updatedInvoice = await InvoiceRepository.updateInvoice(id, data);
-    if (updatedInvoice) return res.status(200).send(UPDATE_SUCCESS);
+
+    const bookCopyId = invoice.bookCopyId;
+    let bookCopyStatus;
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 110 ~ updateInvoiceStatus ~ bookCopyId',
+      bookCopyId
+    );
+    if (updatedInvoice) {
+      if (invoice.status == WAITING_STATUS) {
+        bookCopyStatus = RESERVED_STATUS;
+      } else if (invoice.status == DELIVERED_STATUS) {
+        bookCopyStatus = LOANED_STATUS;
+      } else if (
+        invoice.status == COMPLETED_STATUS ||
+        status == CANCELED_STATUS
+      ) {
+        bookCopyStatus = AVAILABLE_STATUS;
+      } else if (invoice.status == INVOICE_LOST_STATUS) {
+        bookCopyStatus = LOST_STATUS;
+      }
+      const bookCopyData = { status: bookCopyStatus };
+      console.log(
+        '🚀 ~ file: InvoiceController.js ~ line 125 ~ updateInvoiceStatus ~ bookCopyData',
+        bookCopyData
+      );
+      const updatedBookCopy = await BookCopyRepository.updateBookCopy(
+        bookCopyId,
+        bookCopyData
+      );
+      console.log(
+        '🚀 ~ file: InvoiceController.js ~ line 144 ~ updateInvoiceStatus ~ updatedBookCopy',
+        updatedBookCopy
+      );
+    }
+
+    return res.status(200).send(UPDATE_SUCCESS);
   } catch (error) {
     console.log(
       '🚀 ~ file: InvoiceController.js ~ line 90 ~ updateInvoiceStatus ~ error',
