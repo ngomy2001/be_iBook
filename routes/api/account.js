@@ -5,7 +5,19 @@ const {
   createAccount,
   updateAccountInfo,
   searchAccount,
+  countAccountEachMonth,
 } = require('../../Controllers/AccountController');
+/**
+ * @swagger
+ * /api/accounts/countAccountEachMonth:
+ *   get:
+ *     summary: Calculate the number of new accounts of each month.
+ *     description: Calculate the number of new accounts of each month.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
+router.get('/countAccountEachMonth', countAccountEachMonth);
 /**
  * @swagger
  * /api/accounts:
