@@ -8,6 +8,7 @@ const {
   deleteInvoiceInfor,
   searchInvoice,
   countInvoiceEachMonth,
+  calculateBudget,
 } = require('../../Controllers/InvoiceController');
 
 /**
@@ -21,6 +22,18 @@ const {
  *         description: OK.
  */
 router.get('/countInvoiceEachMonth', countInvoiceEachMonth);
+
+/**
+ * @swagger
+ * /api/invoice/calculateBudget:
+ *   get:
+ *     summary: Calculate the current budget.
+ *     description: Calculate the current budget.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
+router.get('/calculateBudget', calculateBudget);
 /**
  * @swagger
  * /api/invoice/searchInvoice/:keyword:
