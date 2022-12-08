@@ -17,6 +17,7 @@ const bookRouter = require('./routes/api/book');
 const bookCopyRouter = require('./routes/api/bookCopy');
 const invoiceRouter = require('./routes/api/invoice');
 const transactionRouter = require('./routes/api/transaction');
+const commentRouter = require('./routes/api/comment');
 
 const database = require('./database/connect');
 
@@ -71,6 +72,7 @@ app.use('/api/bookCopy', bookCopyRouter);
 app.use('/api/invoice', invoiceRouter);
 app.use('/api/transaction', transactionRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/comment', commentRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
