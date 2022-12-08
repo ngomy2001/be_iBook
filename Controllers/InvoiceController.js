@@ -84,9 +84,7 @@ const updateInvoiceInfo = async (req, res, next) => {
 //Update status
 const updateInvoiceStatus = async (req, res, next) => {
   try {
-    console.log('hello');
     const { id } = req.params;
-    console.log('aaa', id);
 
     const invoice = await InvoiceRepository.getInvoiceById(id);
 
