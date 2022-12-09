@@ -32,7 +32,42 @@ const getAllInvoices = async (req, res, next) => {
     );
   }
 };
+//Calculate budget
+const calculateBudget = async (req, res, next) => {
+  try {
+    const currentInvoices = await InvoiceRepository.getInvoices();
+    const numberOfCurrentInvoices = currentInvoices.length;
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 221 ~ calculateBudget ~ numberOfCurrentInvoices',
+      numberOfCurrentInvoices
+    );
+    const completedInvoice = await InvoiceRepository.searchInvoice(
+      COMPLETED_STATUS
+    );
+    const numberOfCompletedInvoice = completedInvoice.length;
 
+    const canceledInvoice = await InvoiceRepository.searchInvoice(
+      CANCELED_STATUS
+    );
+    const numberOfCanceledInvoice = canceledInvoice.length;
+    const amount = 5.0;
+    const revenue = numberOfCurrentInvoices * amount;
+    const refund =
+      (numberOfCompletedInvoice + numberOfCanceledInvoice) * amount;
+    const currentBudget = revenue - refund;
+    const BudgetInfo = {
+      revenueVal: revenue,
+      refundVal: refund,
+      currentBudgetVal: currentBudget,
+    };
+    return res.send(BudgetInfo);
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 212 ~ calculateBudget ~ error',
+      error
+    );
+  }
+};
 //Show a list of already invoices of user
 const getInvoicesByUserId = async (req, res, next) => {
   try {
@@ -213,51 +248,6 @@ const countInvoiceEachMonth = async (req, res, next) => {
   }
 };
 
-//Calculate budget
-const calculateBudget = async (req, res, next) => {
-  try {
-    const currentInvoices = await InvoiceRepository.getInvoices();
-    const numberOfCurrentInvoices = currentInvoices.length;
-
-    // const waitingInvoices = await InvoiceRepository.searchInvoice(
-    //   WAITING_STATUS
-    // );
-    // const numberOfWaitingInvoices = waitingInvoices.length;
-    // const deliveredInvoice = await InvoiceRepository.searchInvoice(
-    //   DELIVERED_STATUS
-    // );
-    // const numberOfDeliveredInvoice = deliveredInvoice.length;
-    const completedInvoice = await InvoiceRepository.searchInvoice(
-      COMPLETED_STATUS
-    );
-    const numberOfCompletedInvoice = completedInvoice.length;
-
-    const canceledInvoice = await InvoiceRepository.searchInvoice(
-      CANCELED_STATUS
-    );
-    const numberOfCanceledInvoice = canceledInvoice.length;
-    // const lostInvoice = await InvoiceRepository.searchInvoice(
-    //   INVOICE_LOST_STATUS
-    // );
-    // const numberOfLostInvoice = lostInvoice.length;
-    const amount = 5.0;
-    const revenue = numberOfCurrentInvoices * amount;
-    const refund =
-      (numberOfCompletedInvoice + numberOfCanceledInvoice) * amount;
-    const currentBudget = revenue - refund;
-    const BudgetInfo = {
-      revenueVal: revenue,
-      refundVal: refund,
-      currentBudgetVal: currentBudget,
-    };
-    return res.send(BudgetInfo);
-  } catch (error) {
-    console.log(
-      '🚀 ~ file: InvoiceController.js ~ line 212 ~ calculateBudget ~ error',
-      error
-    );
-  }
-};
 module.exports = {
   getAllInvoices,
   createInvoice,

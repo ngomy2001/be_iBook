@@ -23,8 +23,6 @@ const {
  *         description: OK.
  */
 router.get('/countInvoiceEachMonth', countInvoiceEachMonth);
-
-router.get('/:userId', getInvoicesByUserId);
 /**
  * @swagger
  * /api/invoice/calculateBudget:
@@ -36,6 +34,8 @@ router.get('/:userId', getInvoicesByUserId);
  *         description: OK.
  */
 router.get('/calculateBudget', calculateBudget);
+router.get('/:userId', getInvoicesByUserId);
+
 /**
  * @swagger
  * /api/invoice/searchInvoice/:keyword:
