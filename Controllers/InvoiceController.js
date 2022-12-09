@@ -33,6 +33,27 @@ const getAllInvoices = async (req, res, next) => {
   }
 };
 
+//Show a list of already invoices of user
+const getInvoicesByUserId = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 40 ~ getInvoicesByUserId ~ userId',
+      JSON.stringify(userId)
+    );
+
+    const invoices = await InvoiceRepository.findInvoiceByUserId(userId);
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 46 ~ getInvoicesByUserId ~ invoices',
+      JSON.stringify(invoices)
+    );
+
+    return res.status(200).send(invoices);
+  } catch (error) {
+    console.log('error: ', error);
+  }
+};
+
 //Search invoice
 const searchInvoice = async (req, res, next) => {
   try {
@@ -246,4 +267,5 @@ module.exports = {
   searchInvoice,
   countInvoiceEachMonth,
   calculateBudget,
+  getInvoicesByUserId,
 };

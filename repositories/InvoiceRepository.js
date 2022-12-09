@@ -21,6 +21,16 @@ const getInvoices = async () => {
   }
 };
 
+//Find invoice by userId
+const findInvoiceByUserId = async (userId) => {
+  console.log('userId: ', userId);
+  try {
+    const invoices = await Invoice.find({ userId: userId });
+    return invoices;
+  } catch (error) {
+    console.log('error: ', error);
+  }
+};
 //Search invoice
 const searchInvoice = async (keyword) => {
   try {
@@ -122,4 +132,5 @@ module.exports = {
   deleteInvoice,
   searchInvoice,
   findInvoiceByMonth,
+  findInvoiceByUserId,
 };

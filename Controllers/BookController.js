@@ -138,23 +138,15 @@ const updateBookInfo = async (req, res, next) => {
     }
   } else if (currentNumberOfCoppy > numberOfCopies) {
     const neededDeleteNumberOfCoppy = currentNumberOfCoppy - numberOfCopies;
-    console.log('delet', neededDeleteNumberOfCoppy);
     const findAvailableBook = await BookCopyRepository.findAvailableItem(id);
-    console.log('avilable', findAvailableBook);
     const numberOfAvailableBook = findAvailableBook.length;
-    console.log('numberOfAvailabel', numberOfAvailableBook);
     if (numberOfAvailableBook > neededDeleteNumberOfCoppy) {
       for (let count = 0; count < neededDeleteNumberOfCoppy; count++) {
         const deleteCopy = await BookCopyRepository.deleteBookCopy(
           findAvailableBook[count]._id
         );
       }
-    } else if (
-      numberOfAvailableBook < neededDeleteNumberOfCoppy ||
-      numberOfAvailableBook == neededDeleteNumberOfCoppy
-    ) {
-      return res.sendStatus(400);
-    }
+    } else return res.sendStatus(400);
   }
 
   const updatedBook = await BookRepository.updateBook(id, data);

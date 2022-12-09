@@ -9,6 +9,7 @@ const {
   searchInvoice,
   countInvoiceEachMonth,
   calculateBudget,
+  getInvoicesByUserId,
 } = require('../../Controllers/InvoiceController');
 
 /**
@@ -23,6 +24,7 @@ const {
  */
 router.get('/countInvoiceEachMonth', countInvoiceEachMonth);
 
+router.get('/:userId', getInvoicesByUserId);
 /**
  * @swagger
  * /api/invoice/calculateBudget:
