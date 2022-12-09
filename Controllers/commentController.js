@@ -10,10 +10,14 @@ const addComment = async (req, res) => {
   try {
     const { userId, bookId, content } = req.body;
     const payload = { userId, bookId, content };
-    console.log('aa', payload);
     const addNewComment = CommentRepository.createComment(payload);
     res.send(addNewComment);
-  } catch (error) {}
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: commentController.js ~ line 16 ~ addComment ~ error',
+      error
+    );
+  }
 };
 
 module.exports = { getCommentById, addComment };

@@ -1,4 +1,5 @@
 const InvoiceRepository = require('../repositories/InvoiceRepository');
+const BookCopyRepository = require('../repositories/BookCopyRepository');
 const {
   CREATE_SUCCESS,
   MISSING_PARAMS,
@@ -6,6 +7,19 @@ const {
   UPDATE_SUCCESS,
   DELETE_SUCCESS,
 } = require('../Constants/message');
+const {
+  AVAILABLE_STATUS,
+  RESERVED_STATUS,
+  LOANED_STATUS,
+  INVOICE_LOST_STATUS,
+} = require('../Constants/bookStatus');
+const {
+  COMPLETED_STATUS,
+  CANCELED_STATUS,
+  WAITING_STATUS,
+  DELIVERED_STATUS,
+  LOST_STATUS,
+} = require('../Constants/invoiceStatus');
 //Show a list of already invoices in system
 const getAllInvoices = async (req, res, next) => {
   try {
@@ -18,6 +32,63 @@ const getAllInvoices = async (req, res, next) => {
     );
   }
 };
+//Calculate budget
+const calculateBudget = async (req, res, next) => {
+  try {
+    const currentInvoices = await InvoiceRepository.getInvoices();
+    const numberOfCurrentInvoices = currentInvoices.length;
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 221 ~ calculateBudget ~ numberOfCurrentInvoices',
+      numberOfCurrentInvoices
+    );
+    const completedInvoice = await InvoiceRepository.searchInvoice(
+      COMPLETED_STATUS
+    );
+    const numberOfCompletedInvoice = completedInvoice.length;
+
+    const canceledInvoice = await InvoiceRepository.searchInvoice(
+      CANCELED_STATUS
+    );
+    const numberOfCanceledInvoice = canceledInvoice.length;
+    const amount = 5.0;
+    const revenue = numberOfCurrentInvoices * amount;
+    const refund =
+      (numberOfCompletedInvoice + numberOfCanceledInvoice) * amount;
+    const currentBudget = revenue - refund;
+    const BudgetInfo = {
+      revenueVal: revenue,
+      refundVal: refund,
+      currentBudgetVal: currentBudget,
+    };
+    return res.send(BudgetInfo);
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 212 ~ calculateBudget ~ error',
+      error
+    );
+  }
+};
+//Show a list of already invoices of user
+const getInvoicesByUserId = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 40 ~ getInvoicesByUserId ~ userId',
+      JSON.stringify(userId)
+    );
+
+    const invoices = await InvoiceRepository.findInvoiceByUserId(userId);
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 46 ~ getInvoicesByUserId ~ invoices',
+      JSON.stringify(invoices)
+    );
+
+    return res.status(200).send(invoices);
+  } catch (error) {
+    console.log('error: ', error);
+  }
+};
+
 //Search invoice
 const searchInvoice = async (req, res, next) => {
   try {
@@ -84,20 +155,48 @@ const updateInvoiceInfo = async (req, res, next) => {
 //Update status
 const updateInvoiceStatus = async (req, res, next) => {
   try {
-    console.log('hello');
     const { id } = req.params;
-    console.log('aaa', id);
 
     const invoice = await InvoiceRepository.getInvoiceById(id);
 
     if (!invoice) return res.status(404).send(NOT_FOUND);
+
     const { status } = req.body;
     const data = {
       status,
     };
-
+    console.log('data', data);
     const updatedInvoice = await InvoiceRepository.updateInvoice(id, data);
-    if (updatedInvoice) return res.status(200).send(UPDATE_SUCCESS);
+    console.log('test', updatedInvoice);
+    const bookCopyId = invoice.bookCopyId;
+    let bookCopyStatus;
+
+    if (updatedInvoice) {
+      if (data.status == WAITING_STATUS) {
+        bookCopyStatus = RESERVED_STATUS;
+      } else if (data.status == DELIVERED_STATUS) {
+        bookCopyStatus = LOANED_STATUS;
+      } else if (data.status == COMPLETED_STATUS || status == CANCELED_STATUS) {
+        bookCopyStatus = AVAILABLE_STATUS;
+      } else if (data.status == INVOICE_LOST_STATUS) {
+        bookCopyStatus = LOST_STATUS;
+      }
+      const bookCopyData = { status: bookCopyStatus };
+      console.log(
+        '🚀 ~ file: InvoiceController.js ~ line 125 ~ updateInvoiceStatus ~ bookCopyData',
+        bookCopyData
+      );
+      const updatedBookCopy = await BookCopyRepository.updateBookCopy(
+        bookCopyId,
+        bookCopyData
+      );
+      console.log(
+        '🚀 ~ file: InvoiceController.js ~ line 144 ~ updateInvoiceStatus ~ updatedBookCopy',
+        updatedBookCopy
+      );
+    }
+
+    return res.status(200).send(UPDATE_SUCCESS);
   } catch (error) {
     console.log(
       '🚀 ~ file: InvoiceController.js ~ line 90 ~ updateInvoiceStatus ~ error',
@@ -119,6 +218,36 @@ const deleteInvoiceInfor = async (req, res, next) => {
     );
   }
 };
+
+//Find invoice by Month
+const countInvoiceEachMonth = async (req, res, next) => {
+  try {
+    const date = new Date();
+    let month;
+    let response = [];
+    const year = date.getFullYear();
+    for (month = 0; month < 12; month++) {
+      let startDate = new Date(year, month, 1);
+      let endDate = new Date(year, month + 1);
+      const foundInvoices = await InvoiceRepository.findInvoiceByMonth(
+        startDate,
+        endDate
+      );
+      const numberOfInvoice = foundInvoices.length;
+      await response.push({
+        monthValue: month + 1,
+        numberOfInvoiceVal: numberOfInvoice,
+      });
+    }
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: InvoiceController.js ~ line 200 ~ countInvoiceEachMonth ~ error',
+      error
+    );
+  }
+};
+
 module.exports = {
   getAllInvoices,
   createInvoice,
@@ -126,4 +255,7 @@ module.exports = {
   deleteInvoiceInfor,
   updateInvoiceStatus,
   searchInvoice,
+  countInvoiceEachMonth,
+  calculateBudget,
+  getInvoicesByUserId,
 };

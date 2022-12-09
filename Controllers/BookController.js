@@ -100,6 +100,8 @@ const updateBookInfo = async (req, res, next) => {
   const book = await BookRepository.getBookById(id);
 
   if (!book) return res.status(404).send(NOT_FOUND);
+  const currentNumberOfCoppy = book.numberOfCopies;
+  console.log('cn', currentNumberOfCoppy);
   const {
     title,
     categoryId,
@@ -109,6 +111,7 @@ const updateBookInfo = async (req, res, next) => {
     numberOfPages,
     numberOfCopies,
   } = req.body;
+
   const data = {
     title,
     categoryId,
@@ -118,6 +121,33 @@ const updateBookInfo = async (req, res, next) => {
     numberOfPages,
     numberOfCopies,
   };
+
+  if (currentNumberOfCoppy < numberOfCopies) {
+    const bookCopyData = {
+      bookId: id,
+      status: AVAILABLE_STATUS,
+    };
+    const neededNumberOfCopies = numberOfCopies - currentNumberOfCoppy;
+    console.log('num', neededNumberOfCopies);
+    for (let count = 0; count < neededNumberOfCopies; count++) {
+      const newCopy = await BookCopyRepository.addNewBookCopy(bookCopyData);
+      console.log(
+        '🚀 ~ file: BookController.js ~ line 48 ~ createBook ~ newCopy',
+        newCopy
+      );
+    }
+  } else if (currentNumberOfCoppy > numberOfCopies) {
+    const neededDeleteNumberOfCoppy = currentNumberOfCoppy - numberOfCopies;
+    const findAvailableBook = await BookCopyRepository.findAvailableItem(id);
+    const numberOfAvailableBook = findAvailableBook.length;
+    if (numberOfAvailableBook > neededDeleteNumberOfCoppy) {
+      for (let count = 0; count < neededDeleteNumberOfCoppy; count++) {
+        const deleteCopy = await BookCopyRepository.deleteBookCopy(
+          findAvailableBook[count]._id
+        );
+      }
+    } else return res.sendStatus(400);
+  }
 
   const updatedBook = await BookRepository.updateBook(id, data);
   return res.status(200).send(UPDATE_SUCCESS);
@@ -151,8 +181,17 @@ const updateBookSample = async (req, res, next) => {
 const deleteBookInfor = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedBook = await BookCopyRepository.deleteBookCopy(id);
-    return res.status(200).send(DELETE_SUCCESS);
+    const foundBook = await BookRepository.getBookById(id);
+    console.log('Number copies: ', foundBook.numberOfCopies);
+    const availableItems = await BookCopyRepository.findAvailableItem(id);
+    console.log('Available items: ', availableItems.length);
+    if (foundBook.numberOfCopies == availableItems.length) {
+      const deletedBook = await BookRepository.deleteBook(id);
+      const deletedBookCopy = await BookCopyRepository.deleteBookCopyByBookId(
+        id
+      );
+      return res.status(200).send(DELETE_SUCCESS);
+    } else return res.sendStatus(400);
   } catch (error) {
     console.log(
       '🚀 ~ file: BookController.js ~ line 114 ~ deleteBookInfor ~ error',

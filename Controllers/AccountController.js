@@ -74,9 +74,39 @@ const updateAccountInfo = async (req, res, next) => {
   const updatedUser = await AccountRepository.updateAccount(id, data);
   return res.status(200).send(UPDATE_SUCCESS);
 };
+
+//Find account by Month
+const countAccountEachMonth = async (req, res, next) => {
+  try {
+    const date = new Date();
+    let month;
+    let response = [];
+    const year = date.getFullYear();
+    for (month = 0; month < 12; month++) {
+      let startDate = new Date(year, month, 1);
+      let endDate = new Date(year, month + 1);
+      const foundAccounts = await AccountRepository.findAccountByMonth(
+        startDate,
+        endDate
+      );
+      const numberOfAccount = foundAccounts.length;
+      await response.push({
+        monthValue: month + 1,
+        numberOfAccountVal: numberOfAccount,
+      });
+    }
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: AccountController.js ~ line 100 ~ countAccountEachMonth ~ error',
+      error
+    );
+  }
+};
 module.exports = {
   getAllAccounts,
   createAccount,
   updateAccountInfo,
   searchAccount,
+  countAccountEachMonth,
 };

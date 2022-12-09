@@ -115,6 +115,20 @@ const deleteBookCopy = async (id) => {
     );
   }
 };
+
+//Delete a book copy by BookId
+
+const deleteBookCopyByBookId = async (id) => {
+  try {
+    const deletedBookCopy = await BookCopy.findByIdAndRemove({ bookId: id });
+    return deletedBookCopy;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: BookCopyRepository.js ~ line 126 ~ deleteBookCopyByBookId ~ error',
+      error
+    );
+  }
+};
 module.exports = {
   getBookCopies,
   getBookCopyById,
@@ -124,4 +138,5 @@ module.exports = {
   findAvailableItem,
   deleteBookCopy,
   getBookCopiesByBookId,
+  deleteBookCopyByBookId,
 };

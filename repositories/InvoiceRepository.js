@@ -21,6 +21,16 @@ const getInvoices = async () => {
   }
 };
 
+//Find invoice by userId
+const findInvoiceByUserId = async (userId) => {
+  console.log('userId: ', userId);
+  try {
+    const invoices = await Invoice.find({ userId: userId });
+    return invoices;
+  } catch (error) {
+    console.log('error: ', error);
+  }
+};
 //Search invoice
 const searchInvoice = async (keyword) => {
   try {
@@ -58,8 +68,25 @@ const getInvoiceById = async (id) => {
   }
 };
 
-//Add a new author
+//Find book by Month
+const findInvoiceByMonth = async (startDate, endDate) => {
+  try {
+    const invoices = await Invoice.find({
+      createdAt: {
+        $gte: startDate,
+        $lte: endDate,
+      },
+    });
+    return invoices;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: InvoiceRepository.js ~ line 72 ~ findInvoiceByMonth ~ error',
+      error
+    );
+  }
+};
 
+//Add a new invoice
 const addInvoice = async (data) => {
   try {
     const newInvoice = await Invoice.create(data);
@@ -104,4 +131,6 @@ module.exports = {
   updateInvoice,
   deleteInvoice,
   searchInvoice,
+  findInvoiceByMonth,
+  findInvoiceByUserId,
 };

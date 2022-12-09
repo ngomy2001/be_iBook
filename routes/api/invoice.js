@@ -7,7 +7,35 @@ const {
   updateInvoiceStatus,
   deleteInvoiceInfor,
   searchInvoice,
+  countInvoiceEachMonth,
+  calculateBudget,
+  getInvoicesByUserId,
 } = require('../../Controllers/InvoiceController');
+
+/**
+ * @swagger
+ * /api/invoice/countInvoiceEachMonth:
+ *   get:
+ *     summary: Calculate the number of new invoice of each month.
+ *     description: Calculate the number of new invoice of each month.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
+router.get('/countInvoiceEachMonth', countInvoiceEachMonth);
+/**
+ * @swagger
+ * /api/invoice/calculateBudget:
+ *   get:
+ *     summary: Calculate the current budget.
+ *     description: Calculate the current budget.
+ *     responses:
+ *       200:
+ *         description: OK.
+ */
+router.get('/calculateBudget', calculateBudget);
+router.get('/:userId', getInvoicesByUserId);
+
 /**
  * @swagger
  * /api/invoice/searchInvoice/:keyword:

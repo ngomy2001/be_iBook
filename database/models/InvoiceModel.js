@@ -5,6 +5,7 @@ const {
   CANCELED_STATUS,
   WAITING_STATUS,
   DELIVERED_STATUS,
+  LOST_STATUS,
 } = require('../../Constants/invoiceStatus');
 
 const InvoiceSchema = new Schema(
@@ -18,6 +19,7 @@ const InvoiceSchema = new Schema(
         CANCELED_STATUS,
         WAITING_STATUS,
         DELIVERED_STATUS,
+        LOST_STATUS,
       ],
       require: true,
     },

@@ -96,6 +96,24 @@ const deleteAccount = async (id) => {
     );
   }
 };
+
+//Find account by Month
+const findAccountByMonth = async (startDate, endDate) => {
+  try {
+    const accounts = await Account.find({
+      createdAt: {
+        $gte: startDate,
+        $lte: endDate,
+      },
+    });
+    return accounts;
+  } catch (error) {
+    console.log(
+      '🚀 ~ file: AccountRepository.js ~ line 111 ~ findAccountByMonth ~ error',
+      error
+    );
+  }
+};
 module.exports = {
   getAccounts,
   getAccountById,
@@ -104,4 +122,5 @@ module.exports = {
   updateAccount,
   deleteAccount,
   searchAccount,
+  findAccountByMonth,
 };
