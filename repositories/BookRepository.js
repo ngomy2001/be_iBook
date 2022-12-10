@@ -19,7 +19,10 @@ const getBooks = async () => {
 //Find a book by Id
 const getBookById = async (id) => {
   try {
-    const book = await Book.findById(id);
+    const book = await Book.findById(id)
+      .populate('categoryId')
+      .populate('authorId')
+      .populate('publisherId');
     return book;
   } catch (error) {
     console.log(
